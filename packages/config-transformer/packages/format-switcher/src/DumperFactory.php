@@ -7,6 +7,7 @@ namespace Migrify\ConfigTransformer\FormatSwitcher;
 use Migrify\ConfigTransformer\FormatSwitcher\Exception\NotImplementedYetException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\Dumper;
+use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Dumper\YamlDumper;
 
 final class DumperFactory
@@ -18,6 +19,11 @@ final class DumperFactory
         $outputFormat = strtolower($outputFormat);
         if ($outputFormat === 'yaml') {
             return new YamlDumper($containerBuilder);
+        }
+
+        if ($outputFormat === 'php') {
+            $containerBuilder->compile();
+            return new PhpDumper($containerBuilder);
         }
 
         throw new NotImplementedYetException($outputFormat);

@@ -51,12 +51,13 @@ final class ConfigFormatConverter
     public function convert(SmartFileInfo $smartFileInfo, string $outputFormat): string
     {
         $containerBuilder = $this->configLoader->loadContainerBuilderFromFileInfo($smartFileInfo);
-        $this->containerBuilderCleaner->cleanContainerBuilder($containerBuilder);
 
         $dumper = $this->dumperFactory->createFromContainerBuilderAndOutputFormat(
             $containerBuilder,
             $outputFormat
         );
+
+        $this->containerBuilderCleaner->cleanContainerBuilder($containerBuilder);
 
         $content = $dumper->dump();
         if (! is_string($content)) {
